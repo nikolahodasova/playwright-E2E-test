@@ -7,7 +7,7 @@ namespace PlaywrightE2ETest.Utils
     {
         public static string GetBaseUrl()
         {
-            var json = File.ReadAllText("config/appsettings.json");
+            var json = File.ReadAllText("Config/appsettings.json");
 
             var doc = JsonDocument.Parse(json);
 
