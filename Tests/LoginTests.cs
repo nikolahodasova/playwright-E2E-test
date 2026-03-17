@@ -13,11 +13,29 @@ namespace PlaywrightE2ETest.Tests
     [AllureNUnit]
     public class LoginTests : BaseTest
     {
-        private static List<LoginDataModel> GetLoginTestData()
+        private static IEnumerable<TestCaseData> GetLoginTestData()
         {
-            return JsonHelper.LoadLoginData();
+            List<LoginDataModel> loginDataList = JsonHelper.LoadLoginData();
+
+            foreach (var data in loginDataList)
+            {
+                var testCase = new TestCaseData(data);
+                if (data.ShouldLogin)
+                {
+                    testCase.SetCategory("Smoke").SetCategory("Regression");
+                }
+                else
+                {
+                    testCase.SetCategory("Negative");
+                }
+
+                yield return testCase;
+            }
         }
+
         [Test]
+        [Category("Smoke")]
+        [Category("Regression")]
         [TestCaseSource (nameof(GetLoginTestData))]
         public async Task LoginTest(LoginDataModel data)
         {

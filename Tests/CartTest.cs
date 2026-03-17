@@ -8,6 +8,7 @@ using PlaywrightE2ETest.Utils;
 using PlaywrightEORTest.Pages;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using Category = NUnit.Framework.CategoryAttribute;
 
 namespace PlaywrightE2ETest.Tests
 {
@@ -22,7 +23,8 @@ namespace PlaywrightE2ETest.Tests
                 Password = "secret_sauce",
             });
         }
-            [Test]
+        [Test]
+        [Category("Regression")]
         [AllureStep("Add product to cart")]
         public async Task AddProductToCartTest()
         {

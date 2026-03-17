@@ -6,6 +6,7 @@ using PlaywrightEORTest.Pages;
 using System.Threading.Tasks;
 using PlaywrightE2ETest.Utils;
 using System.IO;
+using Serilog;
 
 namespace PlaywrightE2ETest.Fixtures
 {
@@ -16,6 +17,9 @@ namespace PlaywrightE2ETest.Fixtures
         [SetUp]
         public async Task Setup()
         {
+            Logger.Init();
+            Log.Information("Starting test: " + TestContext.CurrentContext.Test.Name);
+            
             loginPage = new LoginPage(Page);
             inventoryPage = new InventoryPage(Page);
             await OnBeforeTest();
@@ -30,7 +34,7 @@ namespace PlaywrightE2ETest.Fixtures
         }
         protected async Task PerformLogin(LoginDataModel data)
         {
-            await loginPage.Navigate(Config.BaseUrl);
+            await loginPage.Navigate(ConfigReader.GetBaseUrl());
             await loginPage.Login(data.Username!, data.Password!);
         }
         protected LoginPage loginPage;
@@ -53,6 +57,11 @@ namespace PlaywrightE2ETest.Fixtures
 
                 TestContext.AddTestAttachment(screenshotPath);
             }
+        }
+        [OneTimeTearDown]
+        public void OneTimeTearDown()
+        {
+            Log.CloseAndFlush();
         }
     }
 }
