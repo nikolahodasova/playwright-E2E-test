@@ -3,3 +3,4 @@ bin/
 obj/
 allure-results/
 allure-report/
+test-results/
